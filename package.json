@@ -1,0 +1,9 @@
+{
+  "name": "bojan-space-invaders",
+  "version": "0.0.1",
+  "description": "Implementation of Space Invaders",
+  "author": "Bojan <bojan.bart@gmail.com>",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
