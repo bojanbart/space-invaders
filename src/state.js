@@ -11,5 +11,12 @@ export default {
 
     setStartState: function() {
         this.invadersMoveDirection = 'right'
+    },
+    toggleInvadersMoveDirection: function () {
+        if(this.invadersMoveDirection === 'right'){
+            this.invadersMoveDirection = 'left'
+        } else {
+            this.invadersMoveDirection = 'right'
+        }
     }
 }

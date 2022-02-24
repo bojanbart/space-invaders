@@ -4,6 +4,7 @@ import * as creator from './createFunctions.js'
 import * as loader from './loaderFunctions.js'
 import * as animationDefiner from './animationDefineFunctions.js'
 import * as updater from './updateFunctions.js'
+import * as interactor from './interactionFunctions.js'
 
 const preload = function () {
     const gameWorld = this;
@@ -17,6 +18,7 @@ const create = function () {
     creator.createBackground(gameWorld)
     creator.createInvaders(gameWorld)
     animationDefiner.defineInvadersAnimations(gameWorld)
+    interactor.defineInvaderBordersInteraction(gameWorld)
 }
 
 const update = function () {

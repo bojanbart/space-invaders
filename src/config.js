@@ -9,4 +9,5 @@ export default {
     invadersMRows: 2,
     invadersSCount: 33,
     invadersSRows: 3,
+    invadersSpeed: 50,
 }
