@@ -6,4 +6,10 @@ export default {
     score: 0,
     scoreText: null,
     game: null,
+    cursors: null,
+    invadersMoveDirection: null,
+
+    setStartState: function() {
+        this.invadersMoveDirection = 'right'
+    }
 }
