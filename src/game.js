@@ -20,10 +20,11 @@ const create = function () {
   creator.createPlayer(gameWorld);
   creator.initCursors(gameWorld);
   creator.createTextObjects(gameWorld);
+  creator.createLasers(gameWorld);
   animationDefiner.defineInvadersAnimations(gameWorld);
   animationDefiner.definePlayerAnimations(gameWorld);
-  interactor.defineInvaderBordersInteraction(gameWorld);
-  interactor.definePlayerBordersInteraction(gameWorld);
+  interactor.defineBordersInteractions(gameWorld);
+  interactor.definePlayerShots(gameWorld);
 };
 
 const update = function () {

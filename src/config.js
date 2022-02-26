@@ -10,4 +10,8 @@ export default {
   invadersSCount: 33,
   invadersSRows: 3,
   invadersSpeed: 50,
+  invaderSScore: 10,
+  invaderMScore: 15,
+  invaderLScore: 20,
+  laserSpeed: 300,
 };

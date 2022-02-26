@@ -1,5 +1,7 @@
 export function loadAssets(gameWorld) {
   gameWorld.load.image("space", "assets/background.png");
+  gameWorld.load.image("laserWhite", "assets/laser_white.png");
+  gameWorld.load.image("laserRed", "assets/laser_red.png");
   gameWorld.load.spritesheet("invaderS", "assets/invader1.png", {
     frameWidth: 32,
     frameHeight: 32,

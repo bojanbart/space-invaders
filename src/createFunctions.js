@@ -91,3 +91,8 @@ export function createTextObjects(gameWorld) {
     fill: "#fff",
   });
 }
+
+export function createLasers(gameWorld) {
+  state.playerLasers = gameWorld.physics.add.group();
+  state.invaderLasers = gameWorld.physics.add.group();
+}

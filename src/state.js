@@ -10,6 +10,8 @@ export default {
   game: null,
   cursors: null,
   invadersMoveDirection: null,
+  playerLasers: null,
+  invaderLasers: null,
 
   setStartState: function () {
     this.invadersMoveDirection = "right";
