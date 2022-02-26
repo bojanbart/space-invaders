@@ -19,6 +19,7 @@ const create = function () {
   creator.createInvaders(gameWorld);
   creator.createPlayer(gameWorld);
   creator.initCursors(gameWorld);
+  creator.createTextObjects(gameWorld);
   animationDefiner.defineInvadersAnimations(gameWorld);
   animationDefiner.definePlayerAnimations(gameWorld);
   interactor.defineInvaderBordersInteraction(gameWorld);

@@ -79,3 +79,15 @@ export function createPlayer(gameWorld) {
 export function initCursors(gameWorld) {
   state.cursors = gameWorld.input.keyboard.createCursorKeys();
 }
+
+export function createTextObjects(gameWorld) {
+  state.scoreText = gameWorld.add.text(16, 8, `Score: ${state.score}`, {
+    fontSize: "32px",
+    fill: "#fff",
+  });
+
+  state.livesText = gameWorld.add.text(620, 8, `Lives: ${state.lives}`, {
+    fontSize: "32px",
+    fill: "#fff",
+  });
+}
