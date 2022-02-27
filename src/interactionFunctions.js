@@ -23,13 +23,24 @@ const definePlayerBordersInteraction = (gameWorld) => {
   state.player.setCollideWorldBounds(true);
 };
 
+let invaderLastXAtWorldBoundsColision = 0;
+
+const toggleInvadersMoveDirection = (invader) => {
+  if (Math.abs(invader.x - invaderLastXAtWorldBoundsColision) < 6) {
+    return;
+  }
+
+  state.toggleInvadersMoveDirection();
+  invaderLastXAtWorldBoundsColision = invader.x;
+};
+
 export function defineBordersInteractions(gameWorld) {
   defineInvaderBordersInteraction(gameWorld);
   definePlayerBordersInteraction(gameWorld);
 
   gameWorld.physics.world.on("worldbounds", (obj) => {
     if (obj.gameObject.name === "invader") {
-      state.toggleInvadersMoveDirection();
+      toggleInvadersMoveDirection(obj.gameObject);
     }
 
     if (obj.gameObject.name === "laser") {
