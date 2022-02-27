@@ -14,4 +14,5 @@ export default {
   invaderMScore: 15,
   invaderLScore: 20,
   laserSpeed: 300,
+  invadersFallSpeed: 5,
 };

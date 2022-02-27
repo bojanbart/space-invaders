@@ -34,12 +34,25 @@ const toggleInvadersMoveDirection = (invader) => {
   invaderLastXAtWorldBoundsColision = invader.x;
 };
 
+const handleGameOver = (gameWorld) => {
+  gameWorld.physics.pause();
+  state.scoreText.setText(`GAME OVER! Score: ${state.score}`);
+};
+
+const checkIfIvadersReachBottomBorder = (gameWorld, invader) => {
+  if (Math.abs(invader.y - config.height) < 4 + 32) {
+    handleGameOver(gameWorld);
+  }
+};
+
 export function defineBordersInteractions(gameWorld) {
   defineInvaderBordersInteraction(gameWorld);
   definePlayerBordersInteraction(gameWorld);
 
   gameWorld.physics.world.on("worldbounds", (obj) => {
     if (obj.gameObject.name === "invader") {
+      checkIfIvadersReachBottomBorder(gameWorld, obj.gameObject);
+
       toggleInvadersMoveDirection(obj.gameObject);
     }
 
@@ -126,4 +139,58 @@ export function definePlayerShots(gameWorld) {
   });
 
   handleInvaderDestruction(gameWorld);
+}
+
+export function defineIvadersFalling() {
+  state.invadersL.children.iterate((invader) => {
+    invader.setVelocityY(config.invadersFallSpeed);
+  });
+  state.invadersM.children.iterate((invader) => {
+    invader.setVelocityY(config.invadersFallSpeed);
+  });
+  state.invadersS.children.iterate((invader) => {
+    invader.setVelocityY(config.invadersFallSpeed);
+  });
+}
+
+const checkIfThereAreSomeLivesLeft = (gameWorld) => {
+  if (state.lives <= 0) {
+    handleGameOver(gameWorld);
+  }
+};
+
+const removeOneLive = () => {
+  state.lives -= 1;
+  state.livesText.setText(`Lives: ${state.lives}`);
+};
+
+const handleInvaderAndPlayerCollision = (gameWorld, player, invader) => {
+  invader.disableBody(true, true); // no points to player ;)
+
+  removeOneLive();
+  checkIfThereAreSomeLivesLeft(gameWorld);
+};
+
+export function defineIvaderAndPlayerCollision(gameWorld) {
+  gameWorld.physics.add.overlap(
+    state.player,
+    state.invadersL,
+    (player, invader) => {
+      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+    }
+  );
+  gameWorld.physics.add.overlap(
+    state.player,
+    state.invadersH,
+    (player, invader) => {
+      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+    }
+  );
+  gameWorld.physics.add.overlap(
+    state.player,
+    state.invadersS,
+    (player, invader) => {
+      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+    }
+  );
 }

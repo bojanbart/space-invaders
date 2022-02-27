@@ -25,6 +25,8 @@ const create = function () {
   animationDefiner.definePlayerAnimations(gameWorld);
   interactor.defineBordersInteractions(gameWorld);
   interactor.definePlayerShots(gameWorld);
+  interactor.defineIvadersFalling();
+  interactor.defineIvaderAndPlayerCollision(gameWorld);
 };
 
 const update = function () {
