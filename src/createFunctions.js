@@ -5,38 +5,45 @@ export function createBackground(gameWorld) {
   gameWorld.add.image(400, 300, "space");
 }
 
-const createGivenTypeOfInvaders = (
+export function createGivenTypeOfInvaders(
   gameWorld,
   type,
   count,
   rows,
   existingInvadersRows
-) => {
-  const invadersPerRow = parseInt(count / rows);
+) {
+  const invadersPerRow = Math.ceil(count / rows);
 
   const invaders = gameWorld.physics.add.group({
     key: type,
     repeat: invadersPerRow - 1,
     setXY: {
-      x: config.invadersSpaceOutsideSwarm + 32,
-      y: config.invadersSpaceOutsideSwarm + 32 * (existingInvadersRows + 1),
+      x: config.invadersSpaceOutsideSwarm + 16,
+      y:
+        config.invadersSpaceOutsideSwarm +
+        16 +
+        (32 + config.invadersSpaceBetween) * existingInvadersRows,
       stepX: config.invadersSpaceBetween + 32,
     },
   });
 
   let leftToDraw = count - invadersPerRow;
   let rowToDraw = 2;
-  let newX = config.invadersSpaceOutsideSwarm + 32;
+  let newX = config.invadersSpaceOutsideSwarm + 16;
   let newY =
-    config.invadersSpaceOutsideSwarm + 32 * (existingInvadersRows + rowToDraw);
+    config.invadersSpaceOutsideSwarm +
+    16 +
+    (32 + config.invadersSpaceBetween) * (existingInvadersRows + rowToDraw - 1);
 
   for (let counter = 0; counter < leftToDraw; counter++) {
     if (counter >= invadersPerRow) {
-      newX = config.invadersSpaceOutsideSwarm + 32;
+      newX = config.invadersSpaceOutsideSwarm + 16;
       rowToDraw++;
       newY =
         config.invadersSpaceOutsideSwarm +
-        32 * (existingInvadersRows + rowToDraw);
+        16 +
+        (32 + config.invadersSpaceBetween) *
+          (existingInvadersRows + rowToDraw - 1);
       counter = 0;
       leftToDraw -= invadersPerRow;
     }
@@ -46,7 +53,7 @@ const createGivenTypeOfInvaders = (
   }
 
   return invaders;
-};
+}
 
 export function createInvaders(gameWorld) {
   state.invadersL = createGivenTypeOfInvaders(

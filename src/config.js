@@ -2,7 +2,7 @@ export default {
   width: 800,
   height: 600,
   invadersSpaceBetween: 6,
-  invadersSpaceOutsideSwarm: 32,
+  invadersSpaceOutsideSwarm: 48,
   invadersLCount: 22,
   invadersLRows: 2,
   invadersMCount: 22,
