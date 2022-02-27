@@ -33,7 +33,7 @@ export function defineBordersInteractions(gameWorld) {
     }
 
     if (obj.gameObject.name === "laser") {
-      obj.gameObject.setActive(false).setVisible(false);
+      obj.gameObject.disableBody(true, true);
     }
   });
 }
@@ -49,10 +49,7 @@ export function getShotObj(laserGroup, positionX, positionY, laserType) {
   });
 
   if (laserToUse) {
-    laserToUse.setActive(true);
-    laserToUse.setVisible(true);
-    laserToUse.body.reset(positionX, positionY);
-
+    laserToUse.enableBody(true, positionX, positionY, true, true);
     return laserToUse;
   }
 
@@ -73,6 +70,41 @@ const handlePlayerShot = () => {
   shot.setVelocityY(config.laserSpeed * -1);
 };
 
+const handleInvaderDestruction = (gameWorld) => {
+  gameWorld.physics.add.overlap(
+    state.playerLasers,
+    state.invadersS,
+    (laser, invader) => {
+      invader.disableBody(true, true);
+      laser.disableBody(true, true);
+      state.score += config.invaderSScore;
+      state.scoreText.setText(`Score: ${state.score}`);
+    }
+  );
+
+  gameWorld.physics.add.overlap(
+    state.playerLasers,
+    state.invadersM,
+    (laser, invader) => {
+      invader.disableBody(true, true);
+      laser.disableBody(true, true);
+      state.score += config.invaderMScore;
+      state.scoreText.setText(`Score: ${state.score}`);
+    }
+  );
+
+  gameWorld.physics.add.overlap(
+    state.playerLasers,
+    state.invadersL,
+    (laser, invader) => {
+      invader.disableBody(true, true);
+      laser.disableBody(true, true);
+      state.score += config.invaderLScore;
+      state.scoreText.setText(`Score: ${state.score}`);
+    }
+  );
+};
+
 export function definePlayerShots(gameWorld) {
   gameWorld.input.keyboard.on("keyup-UP", () => {
     handlePlayerShot();
@@ -81,4 +113,6 @@ export function definePlayerShots(gameWorld) {
   gameWorld.input.keyboard.on("keyup-SPACE", () => {
     handlePlayerShot();
   });
+
+  handleInvaderDestruction(gameWorld);
 }

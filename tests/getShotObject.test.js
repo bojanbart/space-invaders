@@ -46,13 +46,14 @@ test("should use existing one when there is unactive in a group", () => {
   existingLasers.push({
     active: false,
     visible: false,
-    setActive(val) {
-      this.active = val;
+    x: 0,
+    y: 0,
+    enableBody(reset, x, y, active, visible) {
+      this.x = x;
+      this.y = y;
+      this.active = active;
+      this.visible = visible;
     },
-    setVisible(val) {
-      this.visible = val;
-    },
-    body: { reset: jest.fn() },
   });
 
   const shot = getShotObj(laserGroup, 1, 1, "x");
@@ -60,21 +61,22 @@ test("should use existing one when there is unactive in a group", () => {
   expect(shot.id).toBeUndefined();
   expect(shot.active).toBeTruthy();
   expect(shot.visible).toBeTruthy();
-  expect(shot.body.reset.mock.calls[0][0]).toBe(1);
-  expect(shot.body.reset.mock.calls[0][1]).toBe(1);
+  expect(shot.x).toBe(1);
+  expect(shot.y).toBe(1);
 });
 
 test("should create new shot where there are only active in a group", () => {
   existingLasers.push({
     active: true,
     visible: true,
-    setActive(val) {
-      this.active = val;
+    x: 0,
+    y: 0,
+    enableBody(reset, x, y, active, visible) {
+      this.x = x;
+      this.y = y;
+      this.active = active;
+      this.visible = visible;
     },
-    setVisible(val) {
-      this.visible = val;
-    },
-    body: { reset: jest.fn() },
   });
 
   const shot = getShotObj(laserGroup, 1, 1, "x");
