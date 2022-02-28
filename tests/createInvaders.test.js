@@ -1,5 +1,9 @@
-import { createGivenTypeOfInvaders } from "../src/createFunctions.js";
+import {
+  createGivenTypeOfInvaders,
+  createInvaders,
+} from "../src/createFunctions.js";
 import config from "../src/config.js";
+import state from "../src/state.js";
 
 class InvaderWrapper {
   constructor() {
@@ -302,5 +306,13 @@ test("should create invaders after previous existing ones", () => {
     config.invadersSpaceOutsideSwarm +
       16 +
       3 * (32 + config.invadersSpaceBetween)
+  );
+});
+
+test("should create three types of invaders and store count of them", () => {
+  createInvaders(gameWorld);
+
+  expect(state.invadersCount).toBe(
+    config.invadersLCount + config.invadersMCount + config.invadersSCount
   );
 });

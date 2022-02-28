@@ -77,6 +77,9 @@ export function createInvaders(gameWorld) {
     config.invadersSRows,
     config.invadersLRows + config.invadersMRows
   );
+
+  state.invadersCount =
+    config.invadersLCount + config.invadersMCount + config.invadersSCount;
 }
 
 export function createPlayer(gameWorld) {

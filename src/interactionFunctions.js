@@ -1,7 +1,8 @@
 import config from "./config.js";
 import state from "./state.js";
+import * as invaderWaveHandler from "./invaderWave.js";
 
-const defineInvaderBordersInteraction = (gameWorld) => {
+export function defineInvaderBordersInteraction(gameWorld) {
   state.invadersL.children.iterate((invader) => {
     invader.setCollideWorldBounds(true);
     invader.setName("invader");
@@ -17,7 +18,7 @@ const defineInvaderBordersInteraction = (gameWorld) => {
     invader.setName("invader");
     invader.body.onWorldBounds = true;
   });
-};
+}
 
 const definePlayerBordersInteraction = (gameWorld) => {
   state.player.setCollideWorldBounds(true);
@@ -94,12 +95,22 @@ const handlePlayerShot = () => {
   shot.setVelocityY(config.laserSpeed * -1);
 };
 
-const handleInvaderDestruction = (gameWorld) => {
+const killInvader = (gameWorld, invader) => {
+  invader.disableBody(true, true);
+
+  state.invadersCount--;
+
+  if (state.invadersCount === 0) {
+    invaderWaveHandler.setNewInvadersWave(gameWorld);
+  }
+};
+
+export function defineInvadersDestruction(gameWorld) {
   gameWorld.physics.add.overlap(
     state.playerLasers,
     state.invadersS,
     (laser, invader) => {
-      invader.disableBody(true, true);
+      killInvader(gameWorld, invader);
       laser.disableBody(true, true);
       state.score += config.invaderSScore;
       state.scoreText.setText(`Score: ${state.score}`);
@@ -110,7 +121,7 @@ const handleInvaderDestruction = (gameWorld) => {
     state.playerLasers,
     state.invadersM,
     (laser, invader) => {
-      invader.disableBody(true, true);
+      killInvader(gameWorld, invader);
       laser.disableBody(true, true);
       state.score += config.invaderMScore;
       state.scoreText.setText(`Score: ${state.score}`);
@@ -121,13 +132,13 @@ const handleInvaderDestruction = (gameWorld) => {
     state.playerLasers,
     state.invadersL,
     (laser, invader) => {
-      invader.disableBody(true, true);
+      killInvader(gameWorld, invader);
       laser.disableBody(true, true);
       state.score += config.invaderLScore;
       state.scoreText.setText(`Score: ${state.score}`);
     }
   );
-};
+}
 
 export function definePlayerShots(gameWorld) {
   gameWorld.input.keyboard.on("keyup-UP", () => {
@@ -138,19 +149,11 @@ export function definePlayerShots(gameWorld) {
     handlePlayerShot();
   });
 
-  handleInvaderDestruction(gameWorld);
+  defineInvadersDestruction(gameWorld);
 }
 
 export function defineIvadersFalling() {
-  state.invadersL.children.iterate((invader) => {
-    invader.setVelocityY(config.invadersFallSpeed);
-  });
-  state.invadersM.children.iterate((invader) => {
-    invader.setVelocityY(config.invadersFallSpeed);
-  });
-  state.invadersS.children.iterate((invader) => {
-    invader.setVelocityY(config.invadersFallSpeed);
-  });
+  invaderWaveHandler.setVelocityForInvaders();
 }
 
 const checkIfThereAreSomeLivesLeft = (gameWorld) => {
@@ -164,8 +167,9 @@ const removeOneLive = () => {
   state.livesText.setText(`Lives: ${state.lives}`);
 };
 
-const handleInvaderAndPlayerCollision = (gameWorld, player, invader) => {
-  invader.disableBody(true, true); // no points to player ;)
+const handleInvaderAndPlayerCollision = (gameWorld, invader) => {
+  // no points to player ;)
+  killInvader(gameWorld, invader);
 
   removeOneLive();
   checkIfThereAreSomeLivesLeft(gameWorld);
@@ -176,21 +180,21 @@ export function defineIvaderAndPlayerCollision(gameWorld) {
     state.player,
     state.invadersL,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+      handleInvaderAndPlayerCollision(gameWorld, invader);
     }
   );
   gameWorld.physics.add.overlap(
     state.player,
     state.invadersM,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+      handleInvaderAndPlayerCollision(gameWorld, invader);
     }
   );
   gameWorld.physics.add.overlap(
     state.player,
     state.invadersS,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, player, invader);
+      handleInvaderAndPlayerCollision(gameWorld, invader);
     }
   );
 }
