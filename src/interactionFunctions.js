@@ -97,6 +97,7 @@ const handlePlayerShot = () => {
 
 const killInvader = (gameWorld, invader) => {
   invader.disableBody(true, true);
+  invader.destroy();
 
   state.invadersCount--;
 

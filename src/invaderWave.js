@@ -5,6 +5,7 @@ import state from "./state.js";
 export function setNewInvadersWave(gameWorld) {
   creator.createInvaders(gameWorld);
 
+  // each wave of invaders is a little bit faster vertically
   state.invadersFallSpeed += 2;
 
   setVelocityForInvaders();
