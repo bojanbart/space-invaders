@@ -181,7 +181,7 @@ export function defineIvaderAndPlayerCollision(gameWorld) {
   );
   gameWorld.physics.add.overlap(
     state.player,
-    state.invadersH,
+    state.invadersM,
     (player, invader) => {
       handleInvaderAndPlayerCollision(gameWorld, player, invader);
     }
