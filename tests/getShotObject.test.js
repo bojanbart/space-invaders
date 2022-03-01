@@ -1,4 +1,4 @@
-import { getShotObj } from "../src/interactionFunctions.js";
+import { getShotObj } from "../src/shotPicker.js";
 
 let laserGroup;
 let existingLasers;

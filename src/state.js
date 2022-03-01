@@ -16,12 +16,14 @@ export default {
   invaderLasers: null,
   invadersCount: 0,
   invadersFallSpeed: 0,
+  isGameActive: false,
 
   setStartState: function () {
     this.invadersMoveDirection = "right";
     this.score = 0;
     this.lives = 3;
     this.invadersFallSpeed = config.invadersFallSpeed;
+    this.isGameActive = true;
   },
   toggleInvadersMoveDirection: function () {
     if (this.invadersMoveDirection === "right") {

@@ -1,5 +1,8 @@
 import state from "./state.js";
 import config from "./config.js";
+import * as invaderTimer from "./invaderTimer.js";
+import * as invaderPicker from "./invaderPicker.js";
+import { getShotObj } from "./shotPicker.js";
 
 let invaderLAnimation;
 let invaderMAnimation;
@@ -47,4 +50,43 @@ export function updatePlayerState() {
   state.player.anims.play("player", true);
 
   handlePlayerMovement();
+}
+
+const handleInvadersRun = () => {
+  if (invaderTimer.isItTimeToRun()) {
+    const invaderToRun = invaderPicker.pickInvaderToRun(
+      state.invadersS,
+      state.invadersM,
+      state.invadersL,
+      state.player
+    );
+
+    invaderToRun.setVelocityY(state.invadersFallSpeed * 5);
+  }
+};
+
+const handleInvadersShots = () => {
+  if (invaderTimer.isItTimeToShoot()) {
+    const invaderToShoot = invaderPicker.pickInvaderToShoot(
+      state.invadersS,
+      state.invadersM,
+      state.invadersL,
+      state.player
+    );
+
+    const shot = getShotObj(
+      state.invaderLasers,
+      invaderToShoot.body.x + 16,
+      invaderToShoot.body.y + 32,
+      "laserRed"
+    );
+    shot.setVelocityY(config.laserSpeed);
+  }
+};
+
+export function updateInvadersActions() {
+  if (state.isGameActive) {
+    handleInvadersRun();
+    handleInvadersShots();
+  }
 }

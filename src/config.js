@@ -15,4 +15,8 @@ export default {
   invaderLScore: 20,
   laserSpeed: 300,
   invadersFallSpeed: 5,
+  invadersShotMinInterval: 2,
+  invadersShotMaxInterval: 5,
+  invadersRunMinInterval: 5,
+  invadersRunMaxInterval: 20,
 };

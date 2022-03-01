@@ -1,6 +1,7 @@
 import config from "./config.js";
 import state from "./state.js";
 import * as invaderWaveHandler from "./invaderWave.js";
+import { getShotObj } from "./shotPicker.js";
 
 export function defineInvaderBordersInteraction(gameWorld) {
   state.invadersL.children.iterate((invader) => {
@@ -38,6 +39,7 @@ const toggleInvadersMoveDirection = (invader) => {
 const handleGameOver = (gameWorld) => {
   gameWorld.physics.pause();
   state.scoreText.setText(`GAME OVER! Score: ${state.score}`);
+  state.isGameActive = false;
 };
 
 const checkIfIvadersReachBottomBorder = (gameWorld, invader) => {
@@ -63,29 +65,11 @@ export function defineBordersInteractions(gameWorld) {
   });
 }
 
-// we want to fetch first non active laser or create new one if there is no one left
-export function getShotObj(laserGroup, positionX, positionY, laserType) {
-  let laserToUse = null;
-
-  laserGroup.children.iterate((laser) => {
-    if (!laser.active) {
-      laserToUse = laser;
-    }
-  });
-
-  if (laserToUse) {
-    laserToUse.enableBody(true, positionX, positionY, true, true);
-    return laserToUse;
+const handlePlayerShot = () => {
+  if (!state.isGameActive) {
+    return;
   }
 
-  laserToUse = laserGroup.create(positionX, positionY, laserType);
-  laserToUse.setCollideWorldBounds(true);
-  laserToUse.setName("laser");
-  laserToUse.body.onWorldBounds = true;
-  return laserToUse;
-}
-
-const handlePlayerShot = () => {
   const shot = getShotObj(
     state.playerLasers,
     state.player.body.x + 32,
@@ -105,6 +89,18 @@ const killInvader = (gameWorld, invader) => {
     invaderWaveHandler.setNewInvadersWave(gameWorld);
   }
 };
+
+export function definePlayerDestruction(gameWorld) {
+  gameWorld.physics.add.overlap(
+    state.player,
+    state.invaderLasers,
+    (player, laser) => {
+      laser.disableBody(true, true);
+      removeOneLive();
+      checkIfThereAreSomeLivesLeft(gameWorld);
+    }
+  );
+}
 
 export function defineInvadersDestruction(gameWorld) {
   gameWorld.physics.add.overlap(

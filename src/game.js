@@ -27,11 +27,13 @@ const create = function () {
   interactor.definePlayerShots(gameWorld);
   interactor.defineIvadersFalling();
   interactor.defineIvaderAndPlayerCollision(gameWorld);
+  interactor.definePlayerDestruction(gameWorld);
 };
 
 const update = function () {
   updater.updateInvadersPosition();
   updater.updatePlayerState();
+  updater.updateInvadersActions();
 };
 
 state.setStartState();
