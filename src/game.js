@@ -9,6 +9,7 @@ import * as interactor from "./interactionFunctions.js";
 const preload = function () {
   const gameWorld = this;
 
+  state.setStartState();
   loader.loadAssets(gameWorld);
 };
 
@@ -36,7 +37,6 @@ const update = function () {
   updater.updateInvadersActions();
 };
 
-state.setStartState();
 state.game = new Phaser.Game({
   type: Phaser.AUTO,
   width: config.width,

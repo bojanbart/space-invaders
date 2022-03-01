@@ -2,6 +2,7 @@ import config from "./config.js";
 import state from "./state.js";
 import * as invaderWaveHandler from "./invaderWave.js";
 import { getShotObj } from "./shotPicker.js";
+import * as gameRestarter from "./gameRestarter.js";
 
 export function defineInvaderBordersInteraction(gameWorld) {
   state.invadersL.children.iterate((invader) => {
@@ -40,6 +41,7 @@ const handleGameOver = (gameWorld) => {
   gameWorld.physics.pause();
   state.scoreText.setText(`GAME OVER! Score: ${state.score}`);
   state.isGameActive = false;
+  invaderLastXAtWorldBoundsColision = config.width / 2;
 };
 
 const checkIfIvadersReachBottomBorder = (gameWorld, invader) => {
@@ -137,6 +139,14 @@ export function defineInvadersDestruction(gameWorld) {
   );
 }
 
+const handleGameRestart = (gameWorld) => {
+  if (state.isGameActive) {
+    return;
+  }
+
+  gameRestarter.restart(gameWorld);
+};
+
 export function definePlayerShots(gameWorld) {
   gameWorld.input.keyboard.on("keyup-UP", () => {
     handlePlayerShot();
@@ -144,6 +154,10 @@ export function definePlayerShots(gameWorld) {
 
   gameWorld.input.keyboard.on("keyup-SPACE", () => {
     handlePlayerShot();
+  });
+
+  gameWorld.input.keyboard.on("keyup-ENTER", () => {
+    handleGameRestart(gameWorld);
   });
 
   defineInvadersDestruction(gameWorld);
