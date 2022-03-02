@@ -1,7 +1,7 @@
 import state from "./state.js";
 import * as creator from "./createFunctions.js";
 import * as invaderWave from "./invaderWave.js";
-import * as interactor from "./interactionFunctions.js";
+import * as textHandler from "./textHandler.js";
 
 const removeExistingInvaders = () => {
   const invaderList = [];
@@ -33,8 +33,8 @@ const removeExistingLasers = () => {
 };
 
 const resetScoreAndLives = () => {
-  state.scoreText.setText(`Score: ${state.score}`);
-  state.livesText.setText(`Lives: ${state.lives}`);
+  textHandler.updateScoreText();
+  textHandler.updateLivesText();
 };
 
 export function restart(gameWorld) {
@@ -46,9 +46,4 @@ export function restart(gameWorld) {
 
   creator.createInvaders(gameWorld);
   invaderWave.setVelocityForInvaders();
-  interactor.defineInvaderBordersInteraction(gameWorld);
-  interactor.defineIvaderAndPlayerCollision(gameWorld);
-  interactor.defineInvadersDestruction(gameWorld);
-
-  gameWorld.physics.resume();
 }

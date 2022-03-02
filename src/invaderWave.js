@@ -1,17 +1,13 @@
 import * as creator from "./createFunctions.js";
-import * as interactor from "./interactionFunctions.js";
 import state from "./state.js";
 
-export function setNewInvadersWave(gameWorld) {
+export function prepareInvadersWave(gameWorld) {
   creator.createInvaders(gameWorld);
 
   // each wave of invaders is a little bit faster vertically
   state.invadersFallSpeed += 2;
 
   setVelocityForInvaders();
-  interactor.defineInvaderBordersInteraction(gameWorld);
-  interactor.defineIvaderAndPlayerCollision(gameWorld);
-  interactor.defineInvadersDestruction(gameWorld);
 }
 
 export function setVelocityForInvaders() {

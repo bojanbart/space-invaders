@@ -3,6 +3,7 @@ import state from "./state.js";
 import * as invaderWaveHandler from "./invaderWave.js";
 import { getShotObj } from "./shotPicker.js";
 import * as gameRestarter from "./gameRestarter.js";
+import * as textHandler from "./textHandler.js";
 
 export function defineInvaderBordersInteraction(gameWorld) {
   state.invadersL.children.iterate((invader) => {
@@ -39,7 +40,7 @@ const toggleInvadersMoveDirection = (invader) => {
 
 const handleGameOver = (gameWorld) => {
   gameWorld.physics.pause();
-  state.scoreText.setText(`GAME OVER! Score: ${state.score}`);
+  textHandler.updateScoreTextGameOver();
   state.isGameActive = false;
   invaderLastXAtWorldBoundsColision = config.width / 2;
 };
@@ -88,7 +89,11 @@ const killInvader = (gameWorld, invader) => {
   state.invadersCount--;
 
   if (state.invadersCount === 0) {
-    invaderWaveHandler.setNewInvadersWave(gameWorld);
+    invaderWaveHandler.prepareInvadersWave(gameWorld);
+
+    defineInvaderBordersInteraction(gameWorld);
+    defineIvaderAndPlayerCollision(gameWorld);
+    defineInvadersDestruction(gameWorld);
   }
 };
 
@@ -104,6 +109,10 @@ export function definePlayerDestruction(gameWorld) {
   );
 }
 
+const increaseScore = (valueToAdd) => {
+  state.score += valueToAdd;
+};
+
 export function defineInvadersDestruction(gameWorld) {
   gameWorld.physics.add.overlap(
     state.playerLasers,
@@ -111,8 +120,8 @@ export function defineInvadersDestruction(gameWorld) {
     (laser, invader) => {
       killInvader(gameWorld, invader);
       laser.disableBody(true, true);
-      state.score += config.invaderSScore;
-      state.scoreText.setText(`Score: ${state.score}`);
+      increaseScore(config.invaderSScore);
+      textHandler.updateScoreText();
     }
   );
 
@@ -122,8 +131,8 @@ export function defineInvadersDestruction(gameWorld) {
     (laser, invader) => {
       killInvader(gameWorld, invader);
       laser.disableBody(true, true);
-      state.score += config.invaderMScore;
-      state.scoreText.setText(`Score: ${state.score}`);
+      increaseScore(config.invaderMScore);
+      textHandler.updateScoreText();
     }
   );
 
@@ -133,8 +142,8 @@ export function defineInvadersDestruction(gameWorld) {
     (laser, invader) => {
       killInvader(gameWorld, invader);
       laser.disableBody(true, true);
-      state.score += config.invaderLScore;
-      state.scoreText.setText(`Score: ${state.score}`);
+      increaseScore(config.invaderLScore);
+      textHandler.updateScoreText();
     }
   );
 }
@@ -145,6 +154,12 @@ const handleGameRestart = (gameWorld) => {
   }
 
   gameRestarter.restart(gameWorld);
+
+  defineInvaderBordersInteraction(gameWorld);
+  defineIvaderAndPlayerCollision(gameWorld);
+  defineInvadersDestruction(gameWorld);
+
+  gameWorld.physics.resume();
 };
 
 export function definePlayerShots(gameWorld) {
@@ -175,7 +190,7 @@ const checkIfThereAreSomeLivesLeft = (gameWorld) => {
 
 const removeOneLive = () => {
   state.lives -= 1;
-  state.livesText.setText(`Lives: ${state.lives}`);
+  textHandler.updateLivesText();
 };
 
 const handleInvaderAndPlayerCollision = (gameWorld, invader) => {
