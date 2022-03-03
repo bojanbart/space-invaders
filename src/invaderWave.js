@@ -2,9 +2,14 @@ import * as creator from "./createFunctions.js";
 import state from "./state.js";
 
 export function prepareInvadersWave(gameWorld) {
+  // we don't want situation when previously fired laser collide with new invaders wave
+  state.playerLasers.children.iterate(laser => {
+    laser.disableBody(true, true);
+  })
+
   creator.createInvaders(gameWorld);
 
-  // each wave of invaders is a little bit faster vertically
+  // each wave of invaders is a little faster vertically
   state.invadersFallSpeed += 2;
 
   setVelocityForInvaders();
