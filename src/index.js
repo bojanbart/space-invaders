@@ -5,6 +5,7 @@ import * as loader from "./loaderFunctions.js";
 import * as animationDefiner from "./animationDefineFunctions.js";
 import * as updater from "./updateFunctions.js";
 import * as interactor from "./interactionFunctions.js";
+import Phaser from "phaser"
 
 const preload = function () {
   const gameWorld = this;
