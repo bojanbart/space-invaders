@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const path = require("path");
 
 module.exports = {
     entry: {
@@ -12,6 +13,17 @@ module.exports = {
     ],
     module: {
         rules: [
+            {
+              test: /\.js$/,
+                include: path.resolve(__dirname, 'src'),
+                exclude: /vendor\.js/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    }
+                }
+            },
             {
                 test: /\.css$/,
                 use: [
