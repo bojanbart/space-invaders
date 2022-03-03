@@ -1,20 +1,28 @@
+import background from './assets/background.png'
+import laser_white from './assets/laser_white.png'
+import laser_red from './assets/laser_red.png'
+import invaderS from './assets/invader1.png'
+import invaderM from './assets/invader2.png'
+import invaderL from './assets/invader3.png'
+import player from './assets/player.png'
+
 export function loadAssets(gameWorld) {
-  gameWorld.load.image("space", "assets/background.png");
-  gameWorld.load.image("laserWhite", "assets/laser_white.png");
-  gameWorld.load.image("laserRed", "assets/laser_red.png");
-  gameWorld.load.spritesheet("invaderS", "assets/invader1.png", {
+  gameWorld.load.image("space", background);
+  gameWorld.load.image("laserWhite", laser_white);
+  gameWorld.load.image("laserRed", laser_red);
+  gameWorld.load.spritesheet("invaderS", invaderS, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("invaderM", "assets/invader2.png", {
+  gameWorld.load.spritesheet("invaderM", invaderM, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("invaderL", "assets/invader3.png", {
+  gameWorld.load.spritesheet("invaderL", invaderL, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("player", "assets/player.png", {
+  gameWorld.load.spritesheet("player", player, {
     frameWidth: 64,
     frameHeight: 32,
   });
