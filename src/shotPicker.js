@@ -1,4 +1,4 @@
-// we want to fetch first non active laser or create new one if there is no one left
+// we want to fetch first non-active laser or create new one if there is no one left
 export function getShotObj(laserGroup, positionX, positionY, laserType) {
   let laserToUse = null;
 

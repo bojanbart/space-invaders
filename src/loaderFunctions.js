@@ -6,23 +6,23 @@ import invaderM from '../assets/invader2.png'
 import invaderL from '../assets/invader3.png'
 import player from '../assets/player.png'
 
-export function loadAssets(gameWorld) {
-  gameWorld.load.image("space", background);
-  gameWorld.load.image("laserWhite", laser_white);
-  gameWorld.load.image("laserRed", laser_red);
-  gameWorld.load.spritesheet("invaderS", invaderS, {
+export function loadAssets(scene) {
+  scene.load.image("space", background);
+  scene.load.image("laserWhite", laser_white);
+  scene.load.image("laserRed", laser_red);
+  scene.load.spritesheet("invaderS", invaderS, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("invaderM", invaderM, {
+  scene.load.spritesheet("invaderM", invaderM, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("invaderL", invaderL, {
+  scene.load.spritesheet("invaderL", invaderL, {
     frameWidth: 32,
     frameHeight: 32,
   });
-  gameWorld.load.spritesheet("player", player, {
+  scene.load.spritesheet("player", player, {
     frameWidth: 64,
     frameHeight: 32,
   });

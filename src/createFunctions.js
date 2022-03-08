@@ -1,12 +1,12 @@
 import state from "./state.js";
 import config from "./config.js";
 
-export function createBackground(gameWorld) {
-  gameWorld.add.image(400, 300, "space");
+export function createBackground(scene) {
+  scene.add.image(400, 300, "space");
 }
 
 export function createGivenTypeOfInvaders(
-  gameWorld,
+  scene,
   type,
   count,
   rows,
@@ -14,7 +14,7 @@ export function createGivenTypeOfInvaders(
 ) {
   const invadersPerRow = Math.ceil(count / rows);
 
-  const invaders = gameWorld.physics.add.group({
+  const invaders = scene.physics.add.group({
     key: type,
     repeat: invadersPerRow - 1,
     setXY: {
@@ -55,23 +55,23 @@ export function createGivenTypeOfInvaders(
   return invaders;
 }
 
-export function createInvaders(gameWorld) {
+export function createInvaders(scene) {
   state.invadersL = createGivenTypeOfInvaders(
-    gameWorld,
+    scene,
     "invaderL",
     config.invadersLCount,
     config.invadersLRows,
     0
   );
   state.invadersM = createGivenTypeOfInvaders(
-    gameWorld,
+    scene,
     "invaderM",
     config.invadersMCount,
     config.invadersMRows,
     config.invadersLRows
   );
   state.invadersS = createGivenTypeOfInvaders(
-    gameWorld,
+    scene,
     "invaderS",
     config.invadersSCount,
     config.invadersSRows,
@@ -82,27 +82,27 @@ export function createInvaders(gameWorld) {
     config.invadersLCount + config.invadersMCount + config.invadersSCount;
 }
 
-export function createPlayer(gameWorld) {
-  state.player = gameWorld.physics.add.sprite(400, 568, "player");
+export function createPlayer(scene) {
+  state.player = scene.physics.add.sprite(400, 568, "player");
 }
 
-export function initCursors(gameWorld) {
-  state.cursors = gameWorld.input.keyboard.createCursorKeys();
+export function initCursors(scene) {
+  state.cursors = scene.input.keyboard.createCursorKeys();
 }
 
-export function createTextObjects(gameWorld) {
-  state.scoreText = gameWorld.add.text(16, 8, `Score: ${state.score}`, {
+export function createTextObjects(scene) {
+  state.scoreText = scene.add.text(16, 8, `Score: ${state.score}`, {
     fontSize: "32px",
     fill: "#fff",
   });
 
-  state.livesText = gameWorld.add.text(620, 8, `Lives: ${state.lives}`, {
+  state.livesText = scene.add.text(620, 8, `Lives: ${state.lives}`, {
     fontSize: "32px",
     fill: "#fff",
   });
 }
 
-export function createLasers(gameWorld) {
-  state.playerLasers = gameWorld.physics.add.group();
-  state.invaderLasers = gameWorld.physics.add.group();
+export function createLasers(scene) {
+  state.playerLasers = scene.physics.add.group();
+  state.invaderLasers = scene.physics.add.group();
 }

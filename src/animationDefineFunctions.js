@@ -1,7 +1,7 @@
-export function defineInvadersAnimations(gameWorld) {
-  gameWorld.anims.create({
+export function defineInvadersAnimations(scene) {
+  scene.anims.create({
     key: "invaderLLeft",
-    frames: gameWorld.anims.generateFrameNumbers("invaderL", {
+    frames: scene.anims.generateFrameNumbers("invaderL", {
       start: 0,
       end: 1,
     }),
@@ -9,9 +9,9 @@ export function defineInvadersAnimations(gameWorld) {
     repeat: -1,
   });
 
-  gameWorld.anims.create({
+  scene.anims.create({
     key: "invaderLRight",
-    frames: gameWorld.anims.generateFrameNumbers("invaderL", {
+    frames: scene.anims.generateFrameNumbers("invaderL", {
       start: 1,
       end: 2,
     }),
@@ -19,9 +19,9 @@ export function defineInvadersAnimations(gameWorld) {
     repeat: -1,
   });
 
-  gameWorld.anims.create({
+  scene.anims.create({
     key: "invaderMLeft",
-    frames: gameWorld.anims.generateFrameNumbers("invaderM", {
+    frames: scene.anims.generateFrameNumbers("invaderM", {
       start: 0,
       end: 1,
     }),
@@ -29,9 +29,9 @@ export function defineInvadersAnimations(gameWorld) {
     repeat: -1,
   });
 
-  gameWorld.anims.create({
+  scene.anims.create({
     key: "invaderMRight",
-    frames: gameWorld.anims.generateFrameNumbers("invaderM", {
+    frames: scene.anims.generateFrameNumbers("invaderM", {
       start: 1,
       end: 2,
     }),
@@ -39,9 +39,9 @@ export function defineInvadersAnimations(gameWorld) {
     repeat: -1,
   });
 
-  gameWorld.anims.create({
+  scene.anims.create({
     key: "invaderSLeft",
-    frames: gameWorld.anims.generateFrameNumbers("invaderS", {
+    frames: scene.anims.generateFrameNumbers("invaderS", {
       start: 0,
       end: 1,
     }),
@@ -49,9 +49,9 @@ export function defineInvadersAnimations(gameWorld) {
     repeat: -1,
   });
 
-  gameWorld.anims.create({
+  scene.anims.create({
     key: "invaderSRight",
-    frames: gameWorld.anims.generateFrameNumbers("invaderS", {
+    frames: scene.anims.generateFrameNumbers("invaderS", {
       start: 1,
       end: 2,
     }),
@@ -60,10 +60,10 @@ export function defineInvadersAnimations(gameWorld) {
   });
 }
 
-export function definePlayerAnimations(gameWorld) {
-  gameWorld.anims.create({
+export function definePlayerAnimations(scene) {
+  scene.anims.create({
     key: "player",
-    frames: gameWorld.anims.generateFrameNumbers("player", {
+    frames: scene.anims.generateFrameNumbers("player", {
       start: 0,
       end: 1,
     }),

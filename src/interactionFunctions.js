@@ -5,7 +5,7 @@ import { getShotObj } from "./shotPicker.js";
 import * as gameRestarter from "./gameRestarter.js";
 import * as textHandler from "./textHandler.js";
 
-export function defineInvaderBordersInteraction(gameWorld) {
+export function defineInvaderBordersInteraction() {
   state.invadersL.children.iterate((invader) => {
     invader.setCollideWorldBounds(true);
     invader.setName("invader");
@@ -23,41 +23,41 @@ export function defineInvaderBordersInteraction(gameWorld) {
   });
 }
 
-const definePlayerBordersInteraction = (gameWorld) => {
+const definePlayerBordersInteraction = () => {
   state.player.setCollideWorldBounds(true);
 };
 
-let invaderLastXAtWorldBoundsColision = 0;
+let invaderLastXAtWorldBoundsCollision = 0;
 
 const toggleInvadersMoveDirection = (invader) => {
-  if (Math.abs(invader.x - invaderLastXAtWorldBoundsColision) < 6) {
+  if (Math.abs(invader.x - invaderLastXAtWorldBoundsCollision) < 6) {
     return;
   }
 
   state.toggleInvadersMoveDirection();
-  invaderLastXAtWorldBoundsColision = invader.x;
+  invaderLastXAtWorldBoundsCollision = invader.x;
 };
 
-const handleGameOver = (gameWorld) => {
-  gameWorld.physics.pause();
+const handleGameOver = (scene) => {
+  scene.physics.pause();
   textHandler.updateScoreTextGameOver();
   state.isGameActive = false;
-  invaderLastXAtWorldBoundsColision = config.width / 2;
+  invaderLastXAtWorldBoundsCollision = config.width / 2;
 };
 
-const checkIfIvadersReachBottomBorder = (gameWorld, invader) => {
+const checkIfIvadersReachBottomBorder = (scene, invader) => {
   if (Math.abs(invader.y - config.height) < 4 + 32) {
-    handleGameOver(gameWorld);
+    handleGameOver(scene);
   }
 };
 
-export function defineBordersInteractions(gameWorld) {
-  defineInvaderBordersInteraction(gameWorld);
-  definePlayerBordersInteraction(gameWorld);
+export function defineBordersInteractions(scene) {
+  defineInvaderBordersInteraction();
+  definePlayerBordersInteraction();
 
-  gameWorld.physics.world.on("worldbounds", (obj) => {
+  scene.physics.world.on("worldbounds", (obj) => {
     if (obj.gameObject.name === "invader") {
-      checkIfIvadersReachBottomBorder(gameWorld, obj.gameObject);
+      checkIfIvadersReachBottomBorder(scene, obj.gameObject);
 
       toggleInvadersMoveDirection(obj.gameObject);
     }
@@ -82,29 +82,29 @@ const handlePlayerShot = () => {
   shot.setVelocityY(config.laserSpeed * -1);
 };
 
-const killInvader = (gameWorld, invader) => {
+const killInvader = (scene, invader) => {
   invader.disableBody(true, true);
   invader.destroy();
 
   state.invadersCount--;
 
   if (state.invadersCount === 0) {
-    invaderWaveHandler.prepareInvadersWave(gameWorld);
+    invaderWaveHandler.prepareInvadersWave(scene);
 
-    defineInvaderBordersInteraction(gameWorld);
-    defineIvaderAndPlayerCollision(gameWorld);
-    defineInvadersDestruction(gameWorld);
+    defineInvaderBordersInteraction(scene);
+    defineInvaderAndPlayerCollision(scene);
+    defineInvadersDestruction(scene);
   }
 };
 
-export function definePlayerDestruction(gameWorld) {
-  gameWorld.physics.add.overlap(
+export function definePlayerDestruction(scene) {
+  scene.physics.add.overlap(
     state.player,
     state.invaderLasers,
     (player, laser) => {
       laser.disableBody(true, true);
       removeOneLive();
-      checkIfThereAreSomeLivesLeft(gameWorld);
+      checkIfThereAreSomeLivesLeft(scene);
     }
   );
 }
@@ -113,34 +113,34 @@ const increaseScore = (valueToAdd) => {
   state.score += valueToAdd;
 };
 
-export function defineInvadersDestruction(gameWorld) {
-  gameWorld.physics.add.overlap(
+export function defineInvadersDestruction(scene) {
+  scene.physics.add.overlap(
     state.playerLasers,
     state.invadersS,
     (laser, invader) => {
-      killInvader(gameWorld, invader);
+      killInvader(scene, invader);
       laser.disableBody(true, true);
       increaseScore(config.invaderSScore);
       textHandler.updateScoreText();
     }
   );
 
-  gameWorld.physics.add.overlap(
+  scene.physics.add.overlap(
     state.playerLasers,
     state.invadersM,
     (laser, invader) => {
-      killInvader(gameWorld, invader);
+      killInvader(scene, invader);
       laser.disableBody(true, true);
       increaseScore(config.invaderMScore);
       textHandler.updateScoreText();
     }
   );
 
-  gameWorld.physics.add.overlap(
+  scene.physics.add.overlap(
     state.playerLasers,
     state.invadersL,
     (laser, invader) => {
-      killInvader(gameWorld, invader);
+      killInvader(scene, invader);
       laser.disableBody(true, true);
       increaseScore(config.invaderLScore);
       textHandler.updateScoreText();
@@ -148,43 +148,43 @@ export function defineInvadersDestruction(gameWorld) {
   );
 }
 
-const handleGameRestart = (gameWorld) => {
+const handleGameRestart = (scene) => {
   if (state.isGameActive) {
     return;
   }
 
-  gameRestarter.restart(gameWorld);
+  gameRestarter.restart(scene);
 
-  defineInvaderBordersInteraction(gameWorld);
-  defineIvaderAndPlayerCollision(gameWorld);
-  defineInvadersDestruction(gameWorld);
+  defineInvaderBordersInteraction(scene);
+  defineInvaderAndPlayerCollision(scene);
+  defineInvadersDestruction(scene);
 
-  gameWorld.physics.resume();
+  scene.physics.resume();
 };
 
-export function definePlayerShots(gameWorld) {
-  gameWorld.input.keyboard.on("keyup-UP", () => {
+export function definePlayerShots(scene) {
+  scene.input.keyboard.on("keyup-UP", () => {
     handlePlayerShot();
   });
 
-  gameWorld.input.keyboard.on("keyup-SPACE", () => {
+  scene.input.keyboard.on("keyup-SPACE", () => {
     handlePlayerShot();
   });
 
-  gameWorld.input.keyboard.on("keyup-ENTER", () => {
-    handleGameRestart(gameWorld);
+  scene.input.keyboard.on("keyup-ENTER", () => {
+    handleGameRestart(scene);
   });
 
-  defineInvadersDestruction(gameWorld);
+  defineInvadersDestruction(scene);
 }
 
 export function defineIvadersFalling() {
   invaderWaveHandler.setVelocityForInvaders();
 }
 
-const checkIfThereAreSomeLivesLeft = (gameWorld) => {
+const checkIfThereAreSomeLivesLeft = (scene) => {
   if (state.lives <= 0) {
-    handleGameOver(gameWorld);
+    handleGameOver(scene);
   }
 };
 
@@ -193,34 +193,34 @@ const removeOneLive = () => {
   textHandler.updateLivesText();
 };
 
-const handleInvaderAndPlayerCollision = (gameWorld, invader) => {
+const handleInvaderAndPlayerCollision = (scene, invader) => {
   // no points to player ;)
-  killInvader(gameWorld, invader);
+  killInvader(scene, invader);
 
   removeOneLive();
-  checkIfThereAreSomeLivesLeft(gameWorld);
+  checkIfThereAreSomeLivesLeft(scene);
 };
 
-export function defineIvaderAndPlayerCollision(gameWorld) {
-  gameWorld.physics.add.overlap(
+export function defineInvaderAndPlayerCollision(scene) {
+  scene.physics.add.overlap(
     state.player,
     state.invadersL,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, invader);
+      handleInvaderAndPlayerCollision(scene, invader);
     }
   );
-  gameWorld.physics.add.overlap(
+  scene.physics.add.overlap(
     state.player,
     state.invadersM,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, invader);
+      handleInvaderAndPlayerCollision(scene, invader);
     }
   );
-  gameWorld.physics.add.overlap(
+  scene.physics.add.overlap(
     state.player,
     state.invadersS,
     (player, invader) => {
-      handleInvaderAndPlayerCollision(gameWorld, invader);
+      handleInvaderAndPlayerCollision(scene, invader);
     }
   );
 }
