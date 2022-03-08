@@ -1,10 +1,10 @@
-import background from './assets/background.png'
-import laser_white from './assets/laser_white.png'
-import laser_red from './assets/laser_red.png'
-import invaderS from './assets/invader1.png'
-import invaderM from './assets/invader2.png'
-import invaderL from './assets/invader3.png'
-import player from './assets/player.png'
+import background from '../assets/background.png'
+import laser_white from '../assets/laser_white.png'
+import laser_red from '../assets/laser_red.png'
+import invaderS from '../assets/invader1.png'
+import invaderM from '../assets/invader2.png'
+import invaderL from '../assets/invader3.png'
+import player from '../assets/player.png'
 
 export function loadAssets(gameWorld) {
   gameWorld.load.image("space", background);
