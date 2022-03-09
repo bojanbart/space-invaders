@@ -4,6 +4,7 @@ import * as invaderWaveHandler from "./invaderWave.js";
 import { getShotObj } from "./shotPicker.js";
 import * as gameRestarter from "./gameRestarter.js";
 import * as textHandler from "./textHandler.js";
+import {playBoom, playPwie} from "./soundEffects";
 
 export function defineInvaderBordersInteraction() {
   state.invadersL.children.iterate((invader) => {
@@ -73,6 +74,8 @@ const handlePlayerShot = () => {
     return;
   }
 
+  playPwie()
+
   const shot = getShotObj(
     state.playerLasers,
     state.player.body.x + 32,
@@ -87,6 +90,7 @@ const killInvader = (scene, invader) => {
   invader.destroy();
 
   state.invadersCount--;
+  playBoom()
 
   if (state.invadersCount === 0) {
     invaderWaveHandler.prepareInvadersWave(scene);
@@ -103,6 +107,7 @@ export function definePlayerDestruction(scene) {
     state.invaderLasers,
     (player, laser) => {
       laser.disableBody(true, true);
+      playBoom()
       removeOneLive();
       checkIfThereAreSomeLivesLeft(scene);
     }

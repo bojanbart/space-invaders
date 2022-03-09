@@ -40,6 +40,16 @@ module.exports = {
                         outputPath: "imgs"
                     }
                 }
+            },
+            {
+                test: /\.(mp3|ogg|m4a|ac3)/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "[name].[hash].[ext]",
+                        outputPath: "audio"
+                    }
+                }
             }
         ]
     }

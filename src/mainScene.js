@@ -4,6 +4,7 @@ import * as creator from "./createFunctions";
 import * as animationDefiner from "./animationDefineFunctions";
 import * as interactor from "./interactionFunctions";
 import * as updater from "./updateFunctions";
+import * as soundEffects from "./soundEffects"
 
 export class MainScene extends Phaser.Scene {
     constructor() {
@@ -15,6 +16,7 @@ export class MainScene extends Phaser.Scene {
 
         state.setStartState();
         loader.loadAssets(mainScene);
+        loader.loadSounds(mainScene);
     }
 
     create() {
@@ -26,6 +28,7 @@ export class MainScene extends Phaser.Scene {
         creator.initCursors(mainScene);
         creator.createTextObjects(mainScene);
         creator.createLasers(mainScene);
+        soundEffects.createAudioSprite(mainScene);
         animationDefiner.defineInvadersAnimations(mainScene);
         animationDefiner.definePlayerAnimations(mainScene);
         interactor.defineBordersInteractions(mainScene);

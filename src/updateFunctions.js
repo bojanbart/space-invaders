@@ -3,6 +3,7 @@ import config from "./config.js";
 import * as invaderTimer from "./invaderTimer.js";
 import * as invaderPicker from "./invaderPicker.js";
 import { getShotObj } from "./shotPicker.js";
+import {playPwie} from "./soundEffects";
 
 let invaderLAnimation;
 let invaderMAnimation;
@@ -73,6 +74,8 @@ const handleInvadersShots = () => {
       state.invadersL,
       state.player
     );
+
+    playPwie()
 
     const shot = getShotObj(
       state.invaderLasers,
